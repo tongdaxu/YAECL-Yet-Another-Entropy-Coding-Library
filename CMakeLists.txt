@@ -1,4 +1,8 @@
-project(test)
 cmake_minimum_required(VERSION 3.0)
-
-add_executable(test ac.cpp)
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+project(yaecl)
+add_subdirectory(pybind11)
+pybind11_add_module(yaecl yaecl_python.cpp)
+add_executable(yaecl_test yaecl_test.cpp)
