@@ -54,14 +54,15 @@ class BitStream {
         return _data[_pos / 8];
     }
     int size(){ return _pos; }
-    void save(std::string &fpath){
+    void save(const std::string &fpath){
         std::ofstream of(fpath, std::ios::out | std::ios::binary);
         of.write(reinterpret_cast<const char*>(_data.data()), _pos / 8 + int(_pos % 8 != 0));
     }
-    void load(std::string &fpath){
+    void load(const std::string &fpath){
         std::ifstream rf(fpath, std::ios::in | std::ios::binary);
-        rf.seekg (0, rf.end);
+        rf.seekg(0, rf.end);
         int flen = rf.tellg();
+        rf.seekg(0, rf.beg);
         while(flen){
             uint8_t tmp;
             rf.read(reinterpret_cast<char*>(&tmp), 1);
