@@ -65,6 +65,23 @@ def test_rans_1x1():
     end = timer()
     print("rans naive decoding elapse: {0:.4f} s".format(end - start))
 
+def test_rans_nxn():
+    sym_b = np.array([i % 5 for i in range(cnt)], dtype=np.int32)
+    cdf_b = np.array([cdf for _ in range(cnt)], dtype=np.int32)
+    symd_b = np.array([0 for _ in range(cnt)], dtype=np.int32)
+    rans_enc = yaecl.rans_codec_t()
+    start = timer()
+    rans_enc.encode_nxn(sym_b, cdf_b, 16)
+    rans_enc.flush()
+    end = timer()
+    print("rans batch encoding elapse: {0:.4f} s".format(end - start))
+    rans_dec = yaecl.rans_codec_t(rans_enc.bit_stream)
+    start = timer()
+    rans_dec.decode_nxn(5, memoryview(cdf_b), 16, memoryview(symd_b))
+    end = timer()
+    print("rans batch decoding elapse: {0:.4f} s".format(end - start))
+    assert(np.sum(np.abs(sym_b - np.flip(symd_b)) == 0))
+
 def test_rans_1x1_interactive():
     rans_codec = yaecl.rans_codec_t()
     start = timer()
@@ -84,3 +101,4 @@ test_ac_nx1()
 test_ac_nxn()
 test_rans_1x1()
 test_rans_1x1_interactive()
+test_rans_nxn()

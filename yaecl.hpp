@@ -329,12 +329,19 @@ class RANSCodec {
         T_in state = _state;
         T_in state_max = c_range << (_h_precision - cdf_bits);
         if(state >= state_max){
+            T_in mk=0xff;
+            for(int i = 1; i <= _t_precision / 8; i++){
+                bit_stream.push_back_byte(static_cast<uint8_t>(state & mk));
+                state >>= 8;
+            }
+            /*
             T_in mask = 1;
             for(int i = 1; i <= _t_precision; i++){
                 bit_stream.push_back(static_cast<bool>(state & mask));
                 mask <<= 1;
             }
             state >>= _t_precision;
+            */
             assert(state < state_max);
         }
         _state = ((state / c_range) << cdf_bits) + (state % c_range) + c_low;
@@ -366,11 +373,18 @@ class RANSCodec {
         T_in state = _state;
         state = c_range * (state >> cdf_bits) + scaled_value - c_low;
         if (state < _h_min){
+            for(int i = 1; i <= _t_precision / 8; i++){
+                state <<= 8;
+                uint8_t byte = bit_stream.pop_back_byte();
+                state |= byte;
+            }
+            /*
             state <<= _t_precision;
             for(int i = _t_precision - 1; i >= 0; i--){
                 T_in bit = bit_stream.pop_back();
                 state |= (bit << i);
             }
+            */
             assert (state >= _h_min);
         }
         _state = state;
