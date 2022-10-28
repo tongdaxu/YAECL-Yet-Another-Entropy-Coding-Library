@@ -1,5 +1,12 @@
 
 ## YAECL: Yet Another Entropy Coding Library for Neural Compression Research
+### Quick Start (Python >= 3.6)
+```bash
+pip install yaecl==0.0.1
+```
+```python
+import yaecl
+```
 ### Motivation
 * yaecl is an Arithmetic Coding and Asymmetric Numeral Systems library supports C++ header only and Python. It is designed for researchers in neural compression (image, video, point cloud etc.) who wants to use Python to easily access different types of coding algorithms (fifo, filo) with decent efficiency. It is also for desirable industry researchers who need an unified library cross Python and C++.
 
@@ -68,7 +75,7 @@
 * refer to yaecl_test.cpp for more examples, and yaecl.hpp for more docs
 
 ### Install: Python
-* build with CMake and pybind11:
+* build from source with CMake and pybind11:
   ```bash
   mkdir build
   cd build
@@ -130,6 +137,10 @@ symbol per pdf, n symbol per cdf or n symbol n cdf. Below the 3 ways are equival
   * Read more on memoryview: https://docs.python.org/3/c-api/memoryview.html
   * Read more on memoryview: https://pybind11.readthedocs.io/en/stable/reference.html
 * See more examples in yaecl_test.py and yaecl.hpp and yaecl_python.cpp
+
+## Algorithm:
+* ArithmeticCodingEncoder and ArithmeticCodingDecoder closely follows the reference code from the paper __Witten, I. H., Neal, R. M., & Cleary, J. G. (1987). Arithmetic coding for data compression. Communications of the ACM, 30(6), 520-540.__. Besides, it is also inspired by previous implementation in https://marknelson.us/posts/2014/10/19/data-compression-with-arithmetic-coding.html. The assertion checks are mostly from previous implementation in https://github.com/nayuki/Reference-arithmetic-coding.
+* RANSCodec integrates the previous implementation in __Townsend, J., Bird, T., & Barber, D. (2019). Practical lossless compression with latent variables using bits back coding. arXiv preprint arXiv:1901.04866.__ and https://github.com/rygorous/ryg_rans
 
 ## Reference
 * if you use this lib in your paper, cite our paper:

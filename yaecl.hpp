@@ -272,48 +272,6 @@ class ArithmeticCodingDecoder{
     T_in _pending_bits;
     T_in _code;
 };
-
-class RANGEEncoder {
-  public:
-  BitStream bit_stream;
-    RANGEEncoder(){
-        _h_precision = 26;
-        _t_precision = 8; // 1 byte
-        _o_precision = _h_precision - _t_precision;
-        _low = 0;
-        _range = (1 << _h_precision); // 2 ** 32
-    }
-    ~RANGEEncoder(){}
-    void encode(const int &sym, const uint32_t *cdf, const int &cdf_bits){
-        uint64_t c_low = cdf[sym];
-        uint64_t c_high = cdf[sym + 1];
-        uint64_t c_total = static_cast<decltype(c_total)>(1) << cdf_bits;
-        uint64_t c_range = c_high - c_low;
-        _range >>= cdf_bits;
-        printf("%lld %lld\n", static_cast<long long>(_low), static_cast<long long>(_range));
-        _low = _low + c_low * _range;
-        printf("%lld %lld\n", static_cast<long long>(_low), static_cast<long long>(_range));
-        _range *= c_range;
-        printf("%lld %lld\n", static_cast<long long>(_low), static_cast<long long>(_range));
-        assert(0);
-        while ((_low >> _o_precision) == ((_low + _range) >> _o_precision)){
-            bit_stream.push_back_byte(static_cast<uint8_t>(_low >> (_o_precision)));
-            // emit one byte
-            _low = (_low % (static_cast<decltype(_low)>(1) << _o_precision)) << _t_precision;
-            _range <<= _t_precision;
-            printf("%d %d\n", static_cast<int>(_low), static_cast<int>(_range));
-            if(_range == 0 && _low == 0) assert (0);
-        }
-    }
-  private:
-    uint64_t _h_precision;
-    uint64_t _t_precision;
-    uint64_t _o_precision;
-    uint64_t _low;
-    uint64_t _high;
-    uint64_t _range;
-    uint64_t _pending_bits;
-};
 template <typename T_in, typename T_out>
 /* template args: see ArithmeticCodingEncoder */
 class RANSCodec {
