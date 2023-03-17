@@ -202,6 +202,7 @@ PYBIND11_MODULE(yaecl, m) {
     m.doc() = "yaecl python library";
     class_<bit_stream_t>(m, "bit_stream_t")
         .def(init<>())
+        .def("size", &bit_stream_t::size)
         .def("save", &bit_stream_t::save)
         .def("load", &bit_stream_t::load);
     class_<ac_encoder_t>(m, "ac_encoder_t")
