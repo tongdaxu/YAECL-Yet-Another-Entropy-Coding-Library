@@ -17,7 +17,7 @@ import yaecl
 | torchac      | Python (torch)     | AC                   | nxn         | float, int16 | No                 | No                   |
 | nayuki       | C++, Python, Java  | AC                   | 1x1         | uint32       | Yes                | Yes                  |
 | ryg_rans     | C header           | RANS                 | 1x1         | uint32       | Yes                | No                   |
-| Turbo        | C/C++              | RANGE, AC            | 1x1         | int (many w) | Yes                | Yes                  |
+| Turbo        | C/C++              | RANGE, AC, rANS      | 1x1         | float, int8/16/32 | Yes                | Yes                  |
 * references:
   * constriction: https://bamler-lab.github.io/constriction/
   * torchac: https://github.com/fab-jul/torchac
