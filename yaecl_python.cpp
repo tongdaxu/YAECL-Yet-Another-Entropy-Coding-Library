@@ -204,7 +204,8 @@ PYBIND11_MODULE(yaecl, m) {
         .def(init<>())
         .def("size", &bit_stream_t::size)
         .def("save", &bit_stream_t::save)
-        .def("load", &bit_stream_t::load);
+        .def("load", &bit_stream_t::load)
+        .def_property("data", &bit_stream_t::getData, &bit_stream_t::setData, "py::bytes");
     class_<ac_encoder_t>(m, "ac_encoder_t")
         .def(init<>())
         .def(init<const int &>())

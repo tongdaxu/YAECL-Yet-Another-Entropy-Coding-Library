@@ -8,6 +8,7 @@
 #include <string>
 #include <type_traits>
 #include <vector>
+#include <pybind11/pybind11.h>
 
 namespace yaecl {
 
@@ -70,6 +71,15 @@ class BitStream {
             _pos+=8;
             flen--;
         }
+    }
+    pybind11::bytes getData() {
+        return pybind11::bytes(reinterpret_cast<const char*>(_data.data()), _pos / 8 + int(_pos % 8 != 0));
+    }
+    void setData(const pybind11::bytes &data) {
+        std::string s = data;
+        _data = std::vector<uint8_t>(s.begin(), s.end());
+        _pos = _data.size() * 8;
+        _fpos = 0;
     }
   private:
     std::vector<uint8_t> _data;
